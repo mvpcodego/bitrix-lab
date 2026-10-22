@@ -36,7 +36,7 @@ HTML);
 $index = file_get_contents("$root/index.php");
 $index = preg_replace('/\$APPLICATION->SetTitle\([^;]*\);/u', '$APPLICATION->SetTitle("Автоэлектроника с установкой");', $index, 1);
 $hero = <<<'HTML'
-<div class="mb-5 p-4 rounded" style="background:#f3f5f9;display:flex;gap:28px;align-items:center;flex-wrap:wrap">
+<div class="mb-5 p-4 rounded mvp-hero" style="background:#f3f5f9;display:flex;gap:28px;align-items:center;flex-wrap:wrap">
 	<img src="/upload/mvpcode/hero.png" alt="Магнитола на Android в салоне" style="width:260px;max-width:100%;border-radius:18px">
 	<div style="flex:1;min-width:240px">
 		<h2 class="mb-3">Магнитолы на Android с установкой под вашу машину</h2>
@@ -105,6 +105,42 @@ $aboutPage = preg_replace('#<p>Мы рады приветствовать.*?од
 	<p>Каждый заказ с сайта попадает в журнал заявок модуля mvpcode.leads вместе с источником рекламы (utm_source) и уходит сделкой в Битрикс24. Если портал недоступен, заявка ждёт в очереди и отправляется повторно.</p>
 HTML, $aboutPage);
 file_put_contents("$root/about/index.php", $aboutPage);
+
+// главная, собранная раньше: блоку-приветствию нужен класс для фирменного стиля
+$index = file_get_contents("$root/index.php");
+file_put_contents("$root/index.php", str_replace('class="mb-5 p-4 rounded" style', 'class="mb-5 p-4 rounded mvp-hero" style', $index));
+
+// шапка: меню каталога на свой шаблон mvp_top (/local/templates/.default/components/bitrix/menu/mvp_top), видно и на телефоне
+$tplHeader = "$root/bitrix/templates/eshop_bootstrap_v4/header.php";
+$h = file_get_contents($tplHeader);
+$h = preg_replace('/("bitrix:menu",\s*)"bootstrap_v4"/', '$1"mvp_top"', $h, 1);
+$h = str_replace('"COMPONENT_TEMPLATE" => "bootstrap_v4"', '"COMPONENT_TEMPLATE" => "mvp_top"', $h);
+$h = str_replace('<div class="row mb-4 d-none d-md-block">', '<div class="row mb-4 mvp-nav-row">', $h);
+file_put_contents($tplHeader, $h);
+
+// подвал: вместо кнопок соцсетей — строка преимуществ, вместо подписки — запись на установку
+file_put_contents("$root/include/socnet_footer.php", <<<'HTML'
+<ul class="mvp-perks">
+	<li>Подбор комплекта под вашу машину</li>
+	<li>Установка в день обращения</li>
+	<li>Гарантия на товар и работу</li>
+	<li>Оплата после проверки</li>
+</ul>
+HTML);
+file_put_contents("$root/include/sender.php", <<<'HTML'
+<div class="mvp-cta">
+	<div class="mvp-cta-title">Запись на установку</div>
+	<div class="mvp-cta-text">Назовите марку, модель и год машины. Подберём комплект и время установки.</div>
+	<a class="mvp-cta-phone" href="tel:+79000000000">+7 900 000-00-00</a>
+</div>
+HTML);
+// иконки соцсетей из демо выводит одна включаемая область: в каталоге и на главной
+file_put_contents("$root/include/socnet_sidebar.php", '');
+// боковая колонка: блок «Мы в соцсетях» (Facebook, Google+, Twitter из демо) убираем
+$side = file_get_contents("$root/sect_sidebar.php");
+file_put_contents("$root/sect_sidebar.php", preg_replace('#<div class="mb-5">\s*<h3>Мы в соцсетях</h3>.*?</div>\s*#su', '', $side, 1));
+// демо-телефон Битрикса похож на настоящий московский номер — ставим заведомо фиктивный
+file_put_contents("$root/include/telephone.php", '<a href="tel:+79000000000">+7 900 000-00-00</a>');
 
 // SEO-шаблоны каталога (наследуемые свойства) — там «от магазина Одежда+» в title, description и alt картинок
 $seo = [

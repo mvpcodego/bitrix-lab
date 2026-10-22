@@ -1,0 +1,120 @@
+/* Фирменный стиль витрины «Автоэлектроника»: графитовые шапка и подвал, оранжевый акцент.
+   Шаблон eshop_bootstrap_v4 не правим: переопределяем его переменные темы и пару блоков. */
+
+:root,
+body.bx-theme-green,
+body .bx-green,
+body .bx-theme-green {
+	--mvp-ink: #16181d;
+	--mvp-ink-2: #23262d;
+	--mvp-muted: #6b7079;
+	--mvp-line: #e3e5e9;
+	--mvp-bg: #f6f6f4;
+	--mvp-accent: #ff5722;
+	--mvp-accent-hover: #e8491a;
+
+	--primary: var(--mvp-accent);
+	--theme-color-primary: var(--mvp-accent);
+	--theme-color-second: var(--mvp-accent-hover);
+	--theme-color-light: #ffd9cc;
+	--theme-b-link: #d9461a;
+	--theme-b-link-hover: var(--mvp-accent);
+	--theme-b-bg-primary: var(--mvp-accent);
+	--theme-b-bd-primary: var(--mvp-accent);
+	--theme-b-sd-primary: rgba(255, 87, 34, .35);
+	--theme-b-bg-primary-hover: var(--mvp-accent-hover);
+	--theme-b-bd-primary-hover: var(--mvp-accent-hover);
+	--theme-b-bg-primary-active: var(--mvp-accent-hover);
+	--theme-b-bd-primary-active: #cf3f13;
+	--theme-b-bg-primary-disabled: #f2a189;
+	--theme-b-bd-primary-disabled: #f2a189;
+}
+
+body.bx-background-image { background: var(--mvp-bg); color: var(--mvp-ink); }
+h1, h2, h3, .bx-block-title { color: var(--mvp-ink); letter-spacing: -.01em; }
+.btn { border-radius: 10px; font-weight: 600; }
+
+/* шапка */
+.bx-header { background: var(--mvp-ink); color: #fff; padding-bottom: 4px; }
+.bx-header .bx-header-section { background: transparent; }
+.bx-header a { color: #fff; }
+.bx-header .bx-header-logo { background: transparent; }
+.bx-header .bx-header-phone-number, .bx-header .bx-header-phone-number a { color: #fff; }
+.bx-header .bx-worktime-title { color: #9aa0aa; }
+.bx-header .bx-worktime-schedule { color: #e6e7ea; }
+.bx-header .bx-header-phone-icon { filter: invert(1); }
+.bx-header #pagetitle { color: #fff; margin-bottom: 18px; }
+.bx-header .bx-breadcrumb-item-text { color: #9aa0aa; }
+.bx-header .bx-breadcrumb-item-link { color: #e6e7ea; }
+.bx-header .bx-searchtitle .bx-input-group .bx-form-control {
+	background: var(--mvp-ink-2); border-color: #343842; color: #fff; border-radius: 10px 0 0 10px;
+}
+.bx-header .bx-menu-button-mobile { display: none; }
+
+/* логотип рисован тёмным по светлому: в графитовой шапке даём ему светлую подложку */
+.bx-header .bx-logo-block img { background: #fff; border-radius: 10px; padding: 4px 8px; }
+
+/* меню каталога: шаблон mvp_top */
+.mvp-nav-row { display: block !important; }
+.mvp-nav { border-top: 1px solid #2c3038; padding-top: 10px; }
+.mvp-nav-list { display: flex; flex-wrap: wrap; gap: 4px; list-style: none; margin: 0; padding: 0; }
+.mvp-nav-item { position: relative; }
+.mvp-nav-link {
+	display: block; padding: 8px 14px; border-radius: 999px;
+	color: #d9dbe0 !important; font-size: 14px; font-weight: 600; text-decoration: none !important;
+	transition: background .15s, color .15s;
+}
+.mvp-nav-link:hover { background: var(--mvp-ink-2); color: #fff !important; }
+.mvp-nav-item.is-active > .mvp-nav-link { background: var(--mvp-accent); color: #fff !important; }
+.mvp-nav-sub {
+	display: none; position: absolute; top: 100%; left: 0; z-index: 50; min-width: 220px;
+	list-style: none; margin: 6px 0 0; padding: 8px; background: #fff; border-radius: 12px;
+	box-shadow: 0 12px 32px rgba(0, 0, 0, .18);
+}
+.mvp-nav-item.has-children:hover .mvp-nav-sub,
+.mvp-nav-item.has-children:focus-within .mvp-nav-sub { display: block; }
+.mvp-nav-sub a { display: block; padding: 8px 10px; border-radius: 8px; color: var(--mvp-ink) !important; }
+.mvp-nav-sub a:hover, .mvp-nav-sub a.is-active { background: var(--mvp-bg); }
+
+@media (max-width: 767.98px) {
+	.mvp-nav-list { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 6px; }
+	.mvp-nav-link { white-space: nowrap; background: var(--mvp-ink-2); }
+	.mvp-nav-sub { display: none !important; }
+}
+
+/* блок-приветствие на главной */
+.mvp-hero { background: var(--mvp-ink) !important; color: #e6e7ea; border-radius: 20px !important; }
+.mvp-hero h2 { color: #fff; }
+
+/* карточки товаров */
+.product-item {
+	background: #fff; border: 1px solid var(--mvp-line); border-radius: 16px;
+	transition: box-shadow .2s, transform .2s;
+}
+.product-item:hover { box-shadow: 0 10px 28px rgba(22, 24, 29, .10); transform: translateY(-2px); }
+.product-item-title a { color: var(--mvp-ink); font-weight: 600; }
+.product-item-price-current, .product-item-detail-price-current { color: var(--mvp-ink) !important; font-weight: 700; }
+body.bx-theme-green .catalog-block-header { border-color: var(--mvp-accent); }
+.product-item-label-text span { background: var(--mvp-accent) !important; border-radius: 6px; }
+
+/* боковая колонка и новости */
+.sidebar-icon { background-color: var(--mvp-ink); }
+.news-list-item .card, .news-list-item { border-radius: 16px; }
+.news-list-item .btn-primary { background: var(--mvp-ink); border-color: var(--mvp-ink); }
+
+/* подвал */
+.bx-footer .bx-footer-bg { background: var(--mvp-ink-2); }
+.bx-footer .bg-dark { background: var(--mvp-ink) !important; }
+.bx-footer .bg-secondary { background: #0f1115 !important; }
+.bx-footer div[style*="#eaeaeb"] { background: transparent !important; padding: 0 !important; }
+.bx-footer a { color: #e6e7ea; }
+.bx-footer a:hover { color: var(--mvp-accent); }
+
+.mvp-perks { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-content: center; padding: 18px 0; margin: 0; list-style: none; }
+.mvp-perks li { color: #e6e7ea; font-weight: 600; font-size: 14px; }
+.mvp-perks li::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 10px; border-radius: 50%; background: var(--mvp-accent); vertical-align: middle; }
+
+.mvp-cta { background: var(--mvp-ink-2); border-radius: 16px; padding: 20px; }
+.mvp-cta-title { color: #fff; font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.mvp-cta-text { color: #b8bcc4; font-size: 14px; margin-bottom: 14px; }
+.mvp-cta-phone { color: #fff !important; font-size: 20px; font-weight: 700; }
