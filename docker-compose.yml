@@ -1,0 +1,29 @@
+# Локальный стенд 1С-Битрикс (пробная «Бизнес») для практики D7. Открывать: http://localhost:8091
+services:
+  nginx:
+    image: nginx:1.27-alpine
+    ports: ["8091:80"]
+    volumes:
+      - ./www:/var/www/html
+      - ./src/local:/var/www/html/local
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on: [php]
+  php:
+    build: ./docker/php
+    volumes:
+      - ./www:/var/www/html
+      - ./src/local:/var/www/html/local
+    depends_on: [db, redis]
+  db:
+    image: mariadb:10.11
+    environment:
+      MARIADB_DATABASE: bitrix
+      MARIADB_USER: bitrix
+      MARIADB_PASSWORD: ${DB_PASSWORD:-bitrix_local}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root_local}
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb-strict-mode=0 --sql-mode=
+    volumes: ["db:/var/lib/mysql"]
+  redis:
+    image: redis:7-alpine
+volumes:
+  db:
